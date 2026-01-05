@@ -86,3 +86,74 @@ fadeElements.forEach(el => {
 
 // Typing Effect for Hero Subtitle (Optional enhancement)
 const subtitle = document.querySelector('.hero-subtitle .highlight');
+
+// Chat Bot Functionality
+const chatWidget = document.getElementById('chat-widget');
+const chatToggleBtn = document.getElementById('chat-toggle-btn');
+const closeChatBtn = document.getElementById('close-chat');
+const chatInput = document.getElementById('chat-input');
+const sendBtn = document.getElementById('send-btn');
+const chatBody = document.getElementById('chat-body');
+
+// Toggle Chat
+function toggleChat() {
+    chatWidget.classList.toggle('active');
+    if (chatWidget.classList.contains('active')) {
+        chatInput.focus();
+    }
+}
+
+if (chatToggleBtn) {
+    chatToggleBtn.addEventListener('click', toggleChat);
+    closeChatBtn.addEventListener('click', toggleChat);
+
+    // Send Message
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message) {
+            addMessage(message, 'user-message');
+            chatInput.value = '';
+            setTimeout(() => {
+                getBotResponse(message);
+            }, 500);
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function addMessage(text, className) {
+        const div = document.createElement('div');
+        div.classList.add('message', className);
+        div.innerHTML = `<p>${text}</p>`;
+        chatBody.appendChild(div);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function getBotResponse(input) {
+        const lowerInput = input.toLowerCase();
+        let response = "I'm not sure about that. Try asking about 'projects', 'skills', or 'contact'.";
+
+        if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hey')) {
+            response = "Hello! How can I assist you with Sunil's portfolio today?";
+        } else if (lowerInput.includes('project') || lowerInput.includes('work')) {
+            response = "Sunil has worked on amazing projects like the Student Management System. Check out the Projects section!";
+            document.querySelector('#projects').scrollIntoView({ behavior: 'smooth' });
+        } else if (lowerInput.includes('skill') || lowerInput.includes('stack') || lowerInput.includes('tech')) {
+            response = "Sunil is proficient in Python, Flask, SQL, and more. See the Skills section for details.";
+            document.querySelector('#skills').scrollIntoView({ behavior: 'smooth' });
+        } else if (lowerInput.includes('contact') || lowerInput.includes('email') || lowerInput.includes('reach') || lowerInput.includes('hire')) {
+            response = "You can reach Sunil at sunilkumarsra2@gmail.com or via LinkedIn.";
+            document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
+        } else if (lowerInput.includes('about') || lowerInput.includes('who')) {
+            response = "Sunil is an Engineering Student specializing in Python and scalable web solutions.";
+            document.querySelector('#about').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        addMessage(response, 'bot-message');
+    }
+}
