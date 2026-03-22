@@ -27,6 +27,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#skills">Skills</a></li>
+            <li><a href="#activity">Activity</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="hamburger">
@@ -37,27 +38,30 @@
     </nav>
 
     <header id="home" class="hero">
-        <div class="hero-content">
-            <span class="greeting">Hello, I'm</span>
-            <h1 class="hero-title">Sunilkumar B</h1>
-            <p class="hero-subtitle">Engineering Student & <span class="highlight">Full Stack Developer</span></p>
-            <p class="hero-description">
-                Specializing in Python, Flask, and scalable web solutions.
-                Focusing on problem-solving and innovation.
-            </p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn primary">View Work</a>
-                <a href="#contact" class="btn secondary">Contact Me</a>
+        <div class="hero-overlay"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="greeting">Hello, I'm</span>
+                <h1 class="hero-title">Sunilkumar B</h1>
+                <p class="hero-subtitle">Engineering Student & <span class="highlight">AI Integrated Full Stack
+                        Developer</span></p>
+                <p class="hero-description">
+                    Specializing in Python, Flask, and scalable web solutions.
+                    Focusing on problem-solving and innovation.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn primary">View Work</a>
+                    <a href="#contact" class="btn secondary">Contact Me</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/sunilkumar-b-2575a3318" target="_blank"
+                        aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:sunilkumarsra2@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
             </div>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/sunilkumar-b-2575a3318" target="_blank" aria-label="LinkedIn"><i
-                        class="fab fa-linkedin-in"></i></a>
-                <a href="mailto:sunilkumarsra2@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+            <div class="profile-wrapper">
+                <img src="assets/profile.png" alt="Sunilkumar B" class="profile-img">
             </div>
-        </div>
-        <div class="hero-visual">
-            <div class="abstract-shape shape-1"></div>
-            <div class="abstract-shape shape-2"></div>
         </div>
     </header>
 
@@ -71,14 +75,17 @@
                             of Technology</strong> (Class of 2028), based in Namakkal, India.
                     </p>
                     <p>
-                        My passion lies in backend technologies like <strong>Python</strong> and <strong>Flask</strong>,
-                        combined with a strong foundation in SQL and database management. I maintain a proven track
-                        record of designing and deploying scalable, high-performance solutions.
+                        I am a dynamic <strong>Bachelor of Engineering</strong> student at <strong>K.S.Rangasamy College
+                            of Technology</strong> (Class of 2028), specializing in Python, Flask, and web development.
                     </p>
                     <p>
-                        I thrive in fast-paced environments, leveraging technical expertise to optimize processes and
-                        deliver impactful results. My approach combines academic rigor with practical project experience
-                        to drive innovation.
+                        With a proven track record of designing and deploying scalable, high-performance solutions, I
+                        demonstrate exceptional problem-solving abilities. I leverage technical expertise to optimize
+                        processes and deliver impactful results.
+                    </p>
+                    <p>
+                        I thrive in fast-paced environments, combining academic rigor with practical project experience
+                        to drive innovation and continuous improvement.
                     </p>
                 </div>
                 <div class="education-card">
@@ -125,15 +132,19 @@
                     </div>
                 </div>
                 <!-- Placeholder for future projects -->
-                <div class="project-card placeholder-card">
+                <div class="project-card">
                     <div class="card-content">
-                        <h3>Upcoming Project</h3>
-                        <p class="project-summary">Currently working on new exciting portfolio additions involving React
-                            and Advanced Data Structures.</p>
+                        <div class="status-badge">Ongoing</div>
+                        <h3>VR Surgery Simulation</h3>
+                        <p class="project-summary">
+                            A virtual reality simulation for surgical procedures in a 3D environment. Using medical
+                            imaging data (CT/MRI), it creates accurate human models for safe practice, skill
+                            improvement, and complex operation planning.
+                        </p>
                         <div class="tags">
-                            <span>Python</span>
-                            <span>Flask</span>
-                            <span>React</span>
+                            <span>Unity</span>
+                            <span>Blender</span>
+                            <span>SOFA Framework</span>
                         </div>
                     </div>
                 </div>
@@ -149,25 +160,37 @@
                     <h3>Technical Skills</h3>
                     <div class="skill-bars">
                         <div class="skill-item">
-                            <span class="skill-name">Python & Flask</span>
+                            <div class="skill-info">
+                                <span class="skill-name">Python Streamlit & Flask</span>
+                                <span class="skill-percent" data-target="95">0%</span>
+                            </div>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 90%"></div>
+                                <div class="skill-progress" style="width: 95%"></div>
                             </div>
                         </div>
                         <div class="skill-item">
-                            <span class="skill-name">SQL & Database Mgmt</span>
+                            <div class="skill-info">
+                                <span class="skill-name">Queries & SQL DB Mgmt</span>
+                                <span class="skill-percent" data-target="88">0%</span>
+                            </div>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 85%"></div>
+                                <div class="skill-progress" style="width: 88%"></div>
                             </div>
                         </div>
                         <div class="skill-item">
-                            <span class="skill-name">HTML & CSS</span>
+                            <div class="skill-info">
+                                <span class="skill-name">Blender & 3D Modeling</span>
+                                <span class="skill-percent" data-target="82">0%</span>
+                            </div>
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: 80%"></div>
+                                <div class="skill-progress" style="width: 82%"></div>
                             </div>
                         </div>
                         <div class="skill-item">
-                            <span class="skill-name">Git & Version Control</span>
+                            <div class="skill-info">
+                                <span class="skill-name">RAG (Retrieval-Augmented Generation)</span>
+                                <span class="skill-percent" data-target="75">0%</span>
+                            </div>
                             <div class="skill-bar">
                                 <div class="skill-progress" style="width: 75%"></div>
                             </div>
@@ -178,11 +201,13 @@
                 <div class="skills-column">
                     <h3>Tools & Soft Skills</h3>
                     <div class="tags-cloud">
+                        <span class="tag">Agentic Agents</span>
                         <span class="tag">Problem-Solving</span>
-                        <span class="tag">Adaptability</span>
                         <span class="tag">Teamwork</span>
-                        <span class="tag">Visual Studio Code</span>
+                        <span class="tag">Tailwind CSS</span>
                         <span class="tag">Figma</span>
+                        <span class="tag">Adaptability</span>
+                        <span class="tag">Visual Studio Code</span>
                         <span class="tag">Canva</span>
                     </div>
                 </div>
@@ -203,7 +228,63 @@
                         <i class="fas fa-certificate"></i>
                         <p>NPTEL The Joy of Computing</p>
                     </div>
+                    <div class="cert-card">
+                        <i class="fas fa-certificate"></i>
+                        <p>Agentic Agents in Unstop</p>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activity" class="section dark-bg">
+        <div class="container">
+            <h2 class="section-title">Coding Activity</h2>
+            <div class="activity-grid">
+                <div class="activity-card" data-platform="github">
+                    <div class="platform-header">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub Contributions</span>
+                    </div>
+                    <div class="heatmap-wrapper">
+                        <div class="month-labels"></div>
+                        <div class="heatmap" id="github-heatmap"></div>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-platform="leetcode">
+                    <div class="platform-header">
+                        <i class="fas fa-code"></i>
+                        <span>LeetCode Solved</span>
+                    </div>
+                    <div class="heatmap-wrapper">
+                        <div class="month-labels"></div>
+                        <div class="heatmap" id="leetcode-heatmap"></div>
+                    </div>
+                </div>
+
+                <div class="activity-card" data-platform="hackerrank">
+                    <div class="platform-header">
+                        <i class="fab fa-hackerrank"></i>
+                        <span>HackerRank Skills</span>
+                    </div>
+                    <div class="heatmap-wrapper">
+                        <div class="month-labels"></div>
+                        <div class="heatmap" id="hackerrank-heatmap"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="activity-legend">
+                <span>Rarely</span>
+                <div class="legend-squares">
+                    <div class="level-0"></div>
+                    <div class="level-1"></div>
+                    <div class="level-2"></div>
+                    <div class="level-3"></div>
+                    <div class="level-4"></div>
+                </div>
+                <span>Frequently</span>
             </div>
         </div>
     </section>
@@ -246,6 +327,29 @@
     <footer>
         <p>&copy; 2024 Sunilkumar B. All Rights Reserved.</p>
     </footer>
+
+    <!-- Chat Bot Widget -->
+    <div id="chat-widget" class="chat-widget">
+        <div class="chat-header">
+            <div class="chat-title">
+                <i class="fas fa-robot"></i>
+                <span>Assistant</span>
+            </div>
+            <button id="close-chat" class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="message bot-message">
+                <p>Hello! I'm Sunil's virtual assistant. How can I help you today?</p>
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button id="chat-toggle-btn" class="chat-toggle-btn">
+        <i class="fas fa-comment-dots"></i>
+    </button>
 
     <script src="script.js"></script>
 </body>
