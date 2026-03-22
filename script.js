@@ -190,9 +190,9 @@ if (skillSection) {
 
 // User Configuration for Platform Activity
 const USERNAMES = {
-    github: 'sunilkumarsra2',
-    leetcode: 'sunilkumarsra2',
-    hackerrank: 'sunilkumarsra2'
+    github: 'sunil-offx',
+    leetcode: 'sunil-offx',
+    hackerrank: 'sunil-offx'
 };
 
 // Populate Heatmaps with Data (Real or Mock Fallback)
