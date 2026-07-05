@@ -8,6 +8,7 @@
   <meta name="description"
     content="Portfolio of Sunilkumar B, AI &amp; ML Engineer specializing in RAG systems, computer vision, and production ML pipelines.">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap"
@@ -74,6 +75,7 @@
 
     html {
       scroll-behavior: smooth;
+      font-size: 17px;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -96,7 +98,7 @@
       background: var(--bg);
       color: var(--text);
       font-family: var(--font-body);
-      font-size: 16px;
+      font-size: 17px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
@@ -319,7 +321,6 @@
       /* Monochrome treatment: grayscale + slightly lifted contrast
      so the portrait reads like a print/scan, matching the console
      aesthetic. Swap the <img src> to replace the photo. */
-      filter: grayscale(1) contrast(1.08) brightness(0.98);
     }
 
     .hero-photo .scan-line {
@@ -542,7 +543,26 @@
     .timeline {
       position: relative;
       padding-left: 28px;
-      border-left: 1px solid var(--border);
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      background: var(--amber);
+      height: 0%;
+      z-index: 1;
     }
 
     .timeline-item {
@@ -557,13 +577,21 @@
     .timeline-item::before {
       content: "";
       position: absolute;
-      left: -33.5px;
+      left: -33px;
       top: 4px;
-      width: 10px;
-      height: 10px;
+      width: 11px;
+      height: 11px;
       border-radius: 50%;
       background: var(--bg);
-      border: 2px solid var(--amber);
+      border: 2px solid var(--border);
+      transition: all 0.4s ease;
+      z-index: 2;
+    }
+
+    .timeline-item.active::before {
+      border-color: var(--teal);
+      background: var(--teal);
+      box-shadow: 0 0 8px rgba(94, 234, 212, 0.4);
     }
 
     .timeline-item .when {
@@ -1395,9 +1423,20 @@
         right: -12px;
       }
     }
+
     /* Custom Cursor Styles */
     @media (hover: hover) and (pointer: fine) {
-      body, a, button, input, textarea, select, .project-card, .suggest-btn, .chat-fab, .chat-close-drawer {
+
+      body,
+      a,
+      button,
+      input,
+      textarea,
+      select,
+      .project-card,
+      .suggest-btn,
+      .chat-fab,
+      .chat-close-drawer {
         cursor: none !important;
       }
 
@@ -1450,6 +1489,7 @@
     }
 
     @media (pointer: coarse) {
+
       .custom-cursor,
       .custom-cursor-follower {
         display: none !important;
@@ -1484,7 +1524,7 @@
     <header class="site-header">
       <div class="container nav">
         <a class="nav-brand" href="#top">
-          <span class="dot" aria-hidden="true"></span> sunilkumar<span style="color:var(--text-faint)">.b</span>
+          <span class="dot" aria-hidden="true"></span> Sunilkumar<span style="color:var(--text-faint)">.b</span>
         </a>
         <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" id="navToggle">menu</button>
         <ul class="nav-links" id="nav-links">
@@ -1493,7 +1533,7 @@
           <li><a href="#Projects">Projects</a></li>
           <li><a href="#Skills">Skills</a></li>
           <li><a href="#Education">Education</a></li>
-          <li><a href="#Contact">Contact</a></li>
+          <li><a href="#Contact">Make an Connection</a></li>
         </ul>
       </div>
     </header>
@@ -1508,9 +1548,7 @@
               <img src="profile.png" id="profile-open"
                 alt="Black-and-white portrait of Sunilkumar B, wearing a formal suit and tie, facing the camera."
                 width="220" height="220" loading="eager">
-              <img src="profile_closed_eyes.png" id="profile-closed"
-                alt="Closed eyes overlay"
-                width="220" height="220" loading="lazy" style="position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 0.12s ease; pointer-events: none;">
+
               <div class="scan-line" aria-hidden="true"></div>
             </div>
           </div>
@@ -1583,6 +1621,7 @@
           </div>
 
           <div class="timeline reveal">
+            <div class="timeline-progress"></div>
             <div class="timeline-item">
               <div class="when mono">May 2026 — Present</div>
               <h3>Founder</h3>
@@ -1590,7 +1629,11 @@
                 ORBIS — Freelancing Agency
                 <a href="https://orbis.com" target="_blank" rel="noopener noreferrer" class="visit-org-link">
                   Visit Website
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
                 </a>
               </div>
               <ul>
@@ -1884,7 +1927,7 @@
         <div class="container">
           <div class="section-head">
             <span class="section-index mono">07</span>
-            <h2>Contact</h2>
+            <h2>Make an Connection</h2>
             <span class="section-status">deploy · ready</span>
           </div>
 
@@ -2702,7 +2745,7 @@
 
           // Set initial visibility on first move
           var initialized = false;
-          
+
           document.addEventListener('mousemove', function (e) {
             if (!initialized) {
               cursor.style.opacity = 1;
@@ -2758,31 +2801,49 @@
           addHoverListeners();
 
           // Re-bind hover listeners periodically to handle dynamic elements (like chat history messages)
-          document.addEventListener('click', function() {
+          document.addEventListener('click', function () {
             setTimeout(addHoverListeners, 50);
           });
         }
       })();
 
       // =========================================================
-      // PROFILE BLINK ANIMATION
+      // EXPERIENCE TIMELINE ANIMATION
       // =========================================================
       (function () {
-        var closedImg = document.getElementById('profile-closed');
-        if (!closedImg) return;
+        if (typeof ScrollTrigger === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
 
-        function triggerBlink() {
-          closedImg.style.opacity = '1';
-          setTimeout(function () {
-            closedImg.style.opacity = '0';
-          }, 240);
+        var timeline = document.querySelector('.timeline');
+        var progressLine = document.querySelector('.timeline-progress');
+        var items = document.querySelectorAll('.timeline-item');
 
-          var nextDelay = 2500 + Math.random() * 4500;
-          setTimeout(triggerBlink, nextDelay);
-        }
+        if (!timeline || !progressLine || items.length === 0) return;
 
-        setTimeout(triggerBlink, 3000);
+        // Animate the rail line height based on scroll
+        gsap.to(progressLine, {
+          height: "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: timeline,
+            start: "top center",
+            end: "bottom center",
+            scrub: true
+          }
+        });
+
+        // Toggle active class on checkpoints
+        items.forEach(function (item) {
+          ScrollTrigger.create({
+            trigger: item,
+            start: "top center",
+            onEnter: function () { item.classList.add('active'); },
+            onLeaveBack: function () { item.classList.remove('active'); }
+          });
+        });
       })();
+
+
 
     })();
   </script>
