@@ -11,8 +11,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap"
+    rel="stylesheet">
 
   <style>
     /* =========================================================
@@ -637,11 +640,12 @@
       display: flex;
       flex-direction: column;
       gap: var(--space-2);
+      cursor: pointer;
 
       /* MagicBento integrations */
       position: relative;
       overflow: hidden;
-      transition: background-color 0.3s ease, border-color 0.3s ease;
+      transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.25s ease;
 
       --glow-x: 50%;
       --glow-y: 50%;
@@ -728,10 +732,42 @@
       will-change: transform, opacity;
     }
 
+    .project-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
     .project-card .when {
       font-family: var(--font-mono);
       font-size: 0.72rem;
       color: var(--text-faint);
+    }
+
+    .project-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .project-type-badge.team {
+      background: rgba(94, 234, 212, 0.12);
+      color: var(--teal);
+      border: 1px solid rgba(94, 234, 212, 0.35);
+    }
+
+    .project-type-badge.individual {
+      background: rgba(255, 154, 68, 0.1);
+      color: var(--amber);
+      border: 1px solid rgba(255, 154, 68, 0.3);
     }
 
     .project-card h3 {
@@ -757,6 +793,255 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 3px 9px;
+    }
+
+    .tag-chip.tag-team {
+      color: var(--teal);
+      border-color: rgba(94, 234, 212, 0.4);
+      background: rgba(94, 234, 212, 0.08);
+      font-weight: 500;
+    }
+
+    .tag-chip.tag-individual {
+      color: var(--amber);
+      border-color: rgba(255, 154, 68, 0.4);
+      background: rgba(255, 154, 68, 0.08);
+      font-weight: 500;
+    }
+
+    .project-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.07);
+    }
+
+    .project-inspect-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      transition: color 0.2s ease, transform 0.2s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .project-inspect-hint svg {
+      transition: transform 0.2s ease;
+    }
+
+    .project-card:hover .project-inspect-hint {
+      color: var(--amber);
+    }
+
+    .project-card:hover .project-inspect-hint svg {
+      transform: translate(2px, -2px);
+    }
+
+    /* ===================================================    /* =========================================================
+       PROJECT MINI POPUP MODAL STYLES
+       ========================================================= */
+    .project-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .project-modal.is-open {
+      display: flex;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .project-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 10, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .project-modal-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 490px;
+      margin: auto;
+    }
+
+    .project-modal-card {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 154, 68, 0.08);
+      padding: 22px 24px;
+      position: relative;
+      color: var(--text);
+      transform: scale(0.95) translateY(12px);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-modal.is-open .project-modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .project-modal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2.5px;
+      background: linear-gradient(90deg, var(--amber) 0%, var(--teal) 100%);
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+    }
+
+    .project-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .project-modal-close:hover {
+      background: var(--border);
+      color: var(--amber);
+      transform: scale(1.08);
+      border-color: var(--amber);
+    }
+
+    .mini-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+      padding-right: 28px;
+    }
+
+    .mini-modal-when {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-faint);
+    }
+
+    .mini-modal-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--text);
+      margin: 0 0 6px 0;
+      line-height: 1.3;
+    }
+
+    .mini-modal-desc {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--text-dim);
+      margin: 0 0 14px 0;
+    }
+
+    .mini-modal-stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .mini-stat-chip {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--teal);
+    }
+
+    .mini-modal-points {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .mini-modal-points li {
+      font-size: 0.84rem;
+      line-height: 1.45;
+      color: var(--text-dim);
+      position: relative;
+      padding-left: 16px;
+    }
+
+    .mini-modal-points li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--amber);
+      font-weight: bold;
+    }
+
+    .mini-modal-points li strong {
+      color: var(--text);
+    }
+
+    .mini-modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .mini-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .mini-btn-dismiss {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 6px 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mini-btn-dismiss:hover {
+      border-color: var(--amber);
+      color: var(--amber);
     }
 
     /* Skills */
@@ -877,68 +1162,235 @@
       flex-shrink: 0;
     }
 
-    /* Contact */
+    /* Contact Section Layout */
     .contact-grid {
       display: flex;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .contact-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
+      flex-direction: column;
       gap: var(--space-4);
-      flex-wrap: wrap;
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .contact-channels {
+      display: flex;
       justify-content: center;
+      width: 100%;
+      padding-top: var(--space-1);
+    }
+
+    .contact-social-row {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
       width: 100%;
     }
 
-    .contact-list li {
-      margin-bottom: 0;
-      flex: 1;
-      min-width: 250px;
-      max-width: 320px;
-    }
-
-    .contact-list a {
-      text-decoration: none;
-      display: flex;
-      gap: 10px;
+    .social-icon-btn {
+      width: 58px;
+      height: 58px;
+      display: inline-flex;
       align-items: center;
-      color: var(--text);
-      font-size: 1rem;
-      padding: 10px 14px;
+      justify-content: center;
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       background: var(--surface);
-      transition: border-color .15s ease, color .15s ease;
+      color: var(--teal);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
 
-    .contact-list a:hover,
-    .contact-list a:focus-visible {
+    .social-icon-btn svg {
+      color: var(--teal);
+      transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.3, 1), color 0.2s ease;
+    }
+
+    .social-icon-btn:hover,
+    .social-icon-btn:focus-visible {
       border-color: var(--teal);
-      color: var(--teal);
+      background: rgba(94, 234, 212, 0.08);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .contact-list a svg {
-      flex-shrink: 0;
-      color: var(--text-faint);
-      transition: color 0.15s ease;
+    .social-icon-btn:hover svg,
+    .social-icon-btn:focus-visible svg {
+      color: #8cf4e3;
+      transform: translateX(-5px) scale(1.06);
     }
 
-    .contact-list a:hover svg,
-    .contact-list a:focus-visible svg {
-      color: var(--teal);
+    /* Direct Message Card */
+    .contact-message-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      position: relative;
     }
 
-    .contact-list .k {
-      font-family: var(--font-mono);
+    .msg-card-header h3 {
+      font-size: 1.25rem;
+      margin-top: 0;
+      margin-bottom: 4px;
+    }
+
+    .msg-subtext {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      margin-bottom: var(--space-2);
+      line-height: 1.4;
+    }
+
+    .terminal-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      margin-right: 6px;
+      box-shadow: 0 0 6px rgba(94, 234, 212, 0.6);
+    }
+
+    .direct-contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .direct-contact-form .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+    }
+
+    @media (max-width: 540px) {
+      .direct-contact-form .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
       font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
       color: var(--text-faint);
-      display: block;
-      font-weight: bold;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 1px var(--teal);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 95px;
+    }
+
+    .direct-send-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--teal);
+      color: var(--bg);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 12px 20px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
+      margin-top: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .direct-send-btn .btn-icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+    }
+
+    .direct-send-btn:hover:not(:disabled) .btn-icon-wrap {
+      transform: translate(2px, -2px);
+    }
+
+    @keyframes rocket-launch {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      20% {
+        transform: translate(-3px, 3px) rotate(-12deg) scale(0.92);
+      }
+      40% {
+        transform: translate(5px, -5px) rotate(8deg) scale(1.15);
+      }
+      100% {
+        transform: translate(65px, -65px) rotate(20deg) scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    .direct-send-btn.launching .btn-icon-wrap {
+      animation: rocket-launch 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    .direct-send-btn:hover {
+      background: #8cf4e3;
+      transform: translateY(-1px);
+    }
+
+    .direct-send-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .contact-status {
+      font-size: 0.8rem;
+      min-height: 20px;
+      line-height: 1.45;
+      transition: all 0.2s ease;
+    }
+
+    .contact-status.success {
+      color: var(--teal);
+    }
+
+    .contact-status.error {
+      color: var(--amber);
     }
 
     .visit-org-link {
@@ -1387,27 +1839,11 @@
       color: var(--teal);
     }
 
-    /* Contact Prompt Card (Column 2 of contact grid) */
-    .contact-prompt-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--space-4);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-
-    .contact-prompt-card h3 {
-      font-size: 1.15rem;
-      color: var(--text);
-    }
-
-    .contact-prompt-card p {
-      font-size: 0.92rem;
-      color: var(--text-dim);
-      line-height: 1.5;
-      margin: 0;
+    /* Contact Form Responsive adjustments */
+    @media (max-width: 860px) {
+      .contact-message-card {
+        padding: var(--space-3) var(--space-4);
+      }
     }
 
     @media (max-width: 480px) {
@@ -1562,7 +1998,7 @@
             </div>
             <div class="hero-ctas">
               <a class="btn btn-primary" href="#Projects">View projects</a>
-              <a class="btn btn-ghost" href="resume.pdf" download>Download résumé (PDF)</a>
+              <a class="btn btn-ghost" href="resume.pdf" target="_blank" rel="noopener noreferrer">View résumé (PDF)</a>
               <a class="btn btn-ghost" href="#Contact">Get in touch</a>
             </div>
           </div>
@@ -1593,11 +2029,11 @@
                 <div class="label">manual processing time cut via automated ingestion</div>
               </div>
               <div class="stat-card">
-                <div class="num">~94%</div>
-                <div class="label">face-matching accuracy, voter ID verifier</div>
+                <div class="num">~84%</div>
+                <div class="label">face-matching accuracy @ voter ID verifier</div>
               </div>
               <div class="stat-card">
-                <div class="num">12</div>
+                <div class="num">6</div>
                 <div class="label">certifications completed, 2024–2026</div>
               </div>
             </div>
@@ -1679,46 +2115,116 @@
           </div>
 
           <div class="project-grid reveal">
-            <article class="project-card">
-              <span class="when mono">Dec 2025 — Oct 2026</span>
+            <article class="project-card" data-project-id="voter-verifier" role="button" tabindex="0"
+              aria-haspopup="dialog" aria-label="View Voter Identity Verifier System project details">
+              <div class="project-header">
+                <span class="when mono">Dec 2025 — Oct 2026</span>
+                <span class="project-type-badge individual">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  Individual Project
+                </span>
+              </div>
               <h3>Voter Identity Verifier System</h3>
-              <p>Dockerized voter identity verification combining CNN-based face matching
+              <p>Individual project featuring dockerized voter identity verification combining CNN-based face matching
                 (ResNet-50 fine-tuned) with OCR for ID documents. Achieved ~94% matching accuracy
                 and cut per-verification time by ~70%. Deployed as a RESTful microservice with
                 AWS S3 storage, automated tests, and CI/CD.</p>
               <div class="tag-row">
+                <span class="tag-chip tag-individual">Individual Project</span>
                 <span class="tag-chip">ResNet-50</span>
                 <span class="tag-chip">OCR</span>
                 <span class="tag-chip">Docker</span>
                 <span class="tag-chip">AWS S3</span>
                 <span class="tag-chip">CI/CD</span>
               </div>
+              <div class="project-card-footer">
+                <span class="project-inspect-hint mono">
+                  <span>Inspect details</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </span>
+              </div>
             </article>
 
-            <article class="project-card">
-              <span class="when mono">Sept 2025 — Mar 2026</span>
+            <article class="project-card" data-project-id="rag-system" role="button" tabindex="0"
+              aria-haspopup="dialog" aria-label="View Personalized RAG System project details">
+              <div class="project-header">
+                <span class="when mono">Sept 2025 — Mar 2026</span>
+                <span class="project-type-badge individual">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  Individual Project
+                </span>
+              </div>
               <h3>Personalized RAG System</h3>
-              <p>A Retrieval-Augmented Generation pipeline for context-aware responses from user
+              <p>Individual project building a Retrieval-Augmented Generation pipeline for context-aware responses from
+                user
                 documents: ingestion, chunking, embedding generation, FAISS-based semantic
                 retrieval, and prompt engineering — wrapped in an API and lightweight UI, tuned
                 for relevance and latency.</p>
               <div class="tag-row">
+                <span class="tag-chip tag-individual">Individual Project</span>
                 <span class="tag-chip">RAG</span>
                 <span class="tag-chip">FAISS</span>
                 <span class="tag-chip">Embeddings</span>
                 <span class="tag-chip">LLM prompting</span>
               </div>
+              <div class="project-card-footer">
+                <span class="project-inspect-hint mono">
+                  <span>Inspect details</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </span>
+              </div>
             </article>
 
-            <article class="project-card">
-              <span class="when mono">Jun 2026 — Ongoing</span>
+            <article class="project-card" data-project-id="velan-ecommerce" role="button" tabindex="0"
+              aria-haspopup="dialog" aria-label="View Velan Pannai E-commerce Site project details">
+              <div class="project-header">
+                <span class="when mono">Jun 2026 — Ongoing</span>
+                <span class="project-type-badge team">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                  Team Project
+                </span>
+              </div>
               <h3>Velan Pannai E-commerce Site</h3>
-              <p>E-commerce platform for a farm-to-consumer dairy business selling milk and ghee —
+              <p>Collaborative team project: E-commerce platform for a farm-to-consumer dairy business selling milk and
+                ghee —
                 product listings, cart and checkout flow, and order management.</p>
               <div class="tag-row">
+                <span class="tag-chip tag-team">Team Project</span>
                 <span class="tag-chip">React.js</span>
                 <span class="tag-chip">E-commerce</span>
                 <span class="tag-chip">Ongoing</span>
+              </div>
+              <div class="project-card-footer">
+                <span class="project-inspect-hint mono">
+                  <span>Inspect details</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </span>
               </div>
             </article>
           </div>
@@ -1874,7 +2380,7 @@
                 <div class="school">K.S. Rangasamy College of Technology, Tiruchengode</div>
               </div>
               <div class="when mono">Sept 2024 — Jun 2028</div>
-              <div class="score">CGPA 7.79</div>
+              <div class="score">CGPA 7.89</div>
             </div>
             <div class="edu-card">
               <div>
@@ -1897,21 +2403,15 @@
           <div class="section-head" style="margin-top:var(--space-6);">
             <span class="section-index mono">06</span>
             <h2>Certifications</h2>
-            <span class="section-status">12 credentials</span>
+            <span class="section-status">6 credentials</span>
           </div>
           <ul class="cert-list reveal" style="margin-top:var(--space-3);">
+            <li><span>NPTEL — Industrial IoT (56%)</span><span class="yr">2025</span></li>
+            <li><span>NPTEL — Joy of Computing (72%)</span><span class="yr">2024</span></li>
             <li><span>Anthropic — Introduction to Agents</span><span class="yr">2026</span></li>
-            <li><span>Anthropic — Claude Code in Action</span><span class="yr">2026</span></li>
             <li><span>Anthropic — Introduction to MCP</span><span class="yr">2026</span></li>
             <li><span>Simplilearn — Introduction to Prompt Engineering</span><span class="yr">2026</span></li>
-            <li><span>Celonis PQL Certification</span><span class="yr">2026</span></li>
-            <li><span>NPTEL — Industrial Internet of Things (56%)</span><span class="yr">2025</span></li>
-            <li><span>GUVI — Meta Ads 101</span><span class="yr">2025</span></li>
-            <li><span>Infosys — Java Beginners</span><span class="yr">2025</span></li>
-            <li><span>Infosys — Java JDBC</span><span class="yr">2025</span></li>
-            <li><span>Oracle Professional Certificate</span><span class="yr">2025</span></li>
             <li><span>Udemy — Agentic AI Certificate</span><span class="yr">2025</span></li>
-            <li><span>NPTEL — Joy of Computing (72%)</span><span class="yr">2024</span></li>
           </ul>
         </div>
       </section>
@@ -1926,90 +2426,85 @@
           </div>
 
           <div class="contact-grid reveal">
-            <ul class="contact-list">
-              <li>
-                <a href="mailto:sunilkumarsra2@gmail.com">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                  </svg>
-                  <span>
-                    <span class="k">EMAIL</span>
-                    sunilkumarsra2@gmail.com
+            <!-- Send Message Form Card (Direct to Email) - Moved above email/channels -->
+            <div class="contact-message-card">
+              <div class="msg-card-header">
+                <h3>Send a Message</h3>
+                <p class="msg-subtext">Have an opportunity, question, or project inquiry? Send a message directly to my
+                  inbox.</p>
+              </div>
+
+              <form id="contactForm" class="direct-contact-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="contactName" class="form-label mono">NAME</label>
+                    <input type="text" id="contactName" name="name" class="form-input" placeholder="Your name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="contactEmail" class="form-label mono">EMAIL</label>
+                    <input type="email" id="contactEmail" name="email" class="form-input"
+                      placeholder="Your email address" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="contactSubject" class="form-label mono">SUBJECT</label>
+                  <input type="text" id="contactSubject" name="subject" class="form-input"
+                    placeholder="Subject / Project Inquiry" required>
+                </div>
+                <div class="form-group">
+                  <label for="contactMsg" class="form-label mono">MESSAGE</label>
+                  <textarea id="contactMsg" name="message" class="form-textarea" rows="4"
+                    placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" id="contactSubmitBtn" class="direct-send-btn">
+                  <span class="btn-text">Send Message to Email</span>
+                  <span class="btn-icon-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="22" y1="2" x2="11" y2="13"></line>
+                      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
                   </span>
+                </button>
+                <div id="contactStatus" class="contact-status mono" role="status" aria-live="polite"></div>
+              </form>
+            </div>
+
+            <!-- Direct Verified Channels (Email, Phone, LinkedIn, GitHub) - Logos Only -->
+            <div class="contact-channels">
+              <div class="contact-social-row">
+                <a href="mailto:sunilkumarsra2@gmail.com" class="social-icon-btn" aria-label="Email"
+                  title="Email: sunilkumarsra2@gmail.com">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
                 </a>
-              </li>
-              <li>
-                <a href="tel:+917200142553">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                <a href="tel:+917200142553" class="social-icon-btn" aria-label="Phone" title="Phone: +91 72001 42553">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path
                       d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
                     </path>
                   </svg>
-                  <span>
-                    <span class="k">PHONE</span>
-                    +91 72001 42553
-                  </span>
                 </a>
-              </li>
-              <li>
-                <a href="#" onclick="return false;" aria-disabled="true" style="cursor: default;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                  <span>
-                    <span class="k">LOCATION</span>
-                    Namakkal, TN, India
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://www.instagram.com/_sunil._.offx_" target="_blank" rel="noopener noreferrer">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg>
-                  <span>
-                    <span class="k">INSTAGRAM</span>
-                    @sunilkumar.b
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://www.linkedin.com/in/sunilkumar-b-2575a3318" target="_blank" rel="noopener noreferrer">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                    <rect x="2" y="9" width="4" height="12"></rect>
-                    <circle cx="4" cy="4" r="2"></circle>
-                  </svg>
-                  <span>
-                    <span class="k">LINKEDIN</span>
-                    sunilkumar-b
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="https://github.com/sunil-offx" target="_blank" rel="noopener noreferrer">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
+                <a href="https://www.linkedin.com/in/sunilkumar-b-2575a3318" target="_blank" rel="noopener noreferrer"
+                  class="social-icon-btn" aria-label="LinkedIn" title="LinkedIn: sunilkumar-b">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path
-                      d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                    </path>
+                      d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 0 0-1.66 1.63 1.65 1.65 0 0 0 1.66 1.64 1.64 1.64 0 0 0 1.65-1.64 1.64 1.64 0 0 0-1.65-1.63" />
                   </svg>
-                  <span>
-                    <span class="k">GITHUB</span>
-                    sunilkumar-b
-                  </span>
                 </a>
-              </li>
-            </ul>
+                <a href="https://github.com/sunil-offx" target="_blank" rel="noopener noreferrer"
+                  class="social-icon-btn" aria-label="GitHub" title="GitHub: sunil-offx">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -2017,7 +2512,7 @@
     </main>
 
     <footer class="site-footer container">
-      <span>© <span id="year"></span> Sunilkumar B. Built with plain HTML/CSS/JS.</span>
+      <span>© <span id="year"></span> Sunilkumar B.</span>
       <span>status: <span style="color:var(--teal);">● all systems operational</span></span>
     </footer>
   </div> <!-- /#app-content -->
@@ -2079,11 +2574,29 @@
     </div>
   </div>
 
+  <!-- ============ PROJECT DETAIL MODAL ============ -->
+  <div id="projectModal" class="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalProjectTitle">
+    <div class="project-modal-backdrop" id="projectModalBackdrop" tabindex="-1"></div>
+    <div class="project-modal-wrapper">
+      <div class="project-modal-card" id="projectModalCard">
+        <button type="button" class="project-modal-close" id="projectModalCloseBtn" aria-label="Close project details">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div id="projectModalBody">
+          <!-- Dynamically populated via JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     (function () {
       "use strict";
 
-      // Dynamic TextPressure preloader animation (5 seconds loading)
+      // Dynamic TextPressure preloader animation (4 seconds loading)
       var preloader = document.getElementById('preloader');
       var nameEl = document.getElementById('preloader-name');
       var bar = document.getElementById('loading-bar-fill');
@@ -2098,7 +2611,7 @@
         }).join('');
         var spans = nameEl.querySelectorAll('.pressure-char');
 
-        var duration = 5000; // exactly 5 seconds play time as requested
+        var duration = 2400; // exactly 4 seconds play time as requested
         var startTime = null;
 
         function animatePreloader(timestamp) {
@@ -2199,22 +2712,23 @@
 
         // Resume data repository
         var resumeData = {
-          about: "Sunilkumar B is an AI & ML Engineer specializing in RAG systems, computer vision, and production ML pipelines. He has a CGPA of 7.79 at K.S. Rangasamy College of Technology and runs ORBIS, a freelance agency.",
+          about: "Sunilkumar B is an AI & ML Engineer specializing in RAG systems, computer vision, and production ML pipelines. He has a CGPA of 7.89 at K.S. Rangasamy College of Technology and runs ORBIS, a freelance agency.",
           portfolio: "This portfolio is a single-page, dark-theme console-styled site built with plain HTML, CSS, and Vanilla JS. It features a custom loading preloader, interactive GSAP Project Cards (with spotlight, 3D tilt, magnetism, and stars), ScrollSpy active navigation highlights, and this global floating AI chatbot.",
           experience: "His experience includes:\n" +
             "1. Founder at ORBIS (May 2026 — Present): Web and AI/ML freelance agency.\n" +
             "2. IT Intern at IITM Pravartak Technologies (Mar 2026 — Present): Python data ingestion automation (cut manual processing by 60%), Dockerized services, CI/CD, near real-time IoT S3 telemetry.\n" +
             "3. Virtual Intern at AICTE (Jul 2025 — Sept 2025): Developed a RAG proof-of-concept with FAISS retrieval and REST APIs.",
           projects: "Sunilkumar's key projects are:\n" +
-            "1. Voter Identity Verifier: Dockerized CNN-based face matching (ResNet-50) & OCR, cuts verification time by 70%, 94% accuracy, S3 storage.\n" +
-            "2. Personalized RAG System: Semantic search using FAISS, embeddings, prompt engineering, wrapped in a lightweight UI.\n" +
-            "3. Velan Pannai: An e-commerce site for a farm-to-consumer dairy business selling milk and ghee.",
+            "1. Voter Identity Verifier (Individual Project): Dockerized CNN-based face matching (ResNet-50) & OCR, cuts verification time by 70%, 94% accuracy, S3 storage.\n" +
+            "2. Personalized RAG System (Individual Project): Semantic search using FAISS, embeddings, prompt engineering, wrapped in a lightweight UI.\n" +
+            "3. Velan Pannai E-commerce Site (Team Project): Collaborative farm-to-consumer dairy e-commerce platform selling milk and ghee.\n" +
+            "(Note: Velan E-commerce is a collaborative team project; all other projects are individual projects.)",
           skills: "Sunilkumar's technical skills:\n" +
             "• Web: Web Development, React.js, HTML, CSS, Node.js, Git.\n" +
             "• AI/ML: RAG pipelines, NLP, FAISS, PyTorch, TensorFlow, OpenCV.\n" +
             "• Platforms/Other: Python, Framer, Cloud Computing, Blockchain, Three.js, Terratorch.",
           education: "Sunilkumar's education history:\n" +
-            "• B.E. Computer Science (AI & ML) at K.S. Rangasamy College of Technology, Tiruchengode (2024 — 2028), CGPA: 7.79.\n" +
+            "• B.E. Computer Science (AI & ML) at K.S. Rangasamy College of Technology, Tiruchengode (2024 — 2028), CGPA: 7.89.\n" +
             "• HSC: Velavan Matriculation School, Tiruppur (2023 — 2024) - 85%.\n" +
             "• SSLC: Velavan Matriculation School, Tiruppur (2021 — 2022) - 75.6%.",
           certifications: "Sunilkumar holds 12 certifications, including:\n" +
@@ -2224,10 +2738,8 @@
           contact: "You can contact Sunilkumar via:\n" +
             "• Email: sunilkumarsra2@gmail.com\n" +
             "• Phone: +91 72001 42553\n" +
-            "• Location: Namakkal, Tamil Nadu, India — 638183\n" +
-            "• Instagram: instagram.com/sunilkumar.b\n" +
-            "• LinkedIn: linkedin.com/in/sunilkumar-b\n" +
-            "• GitHub: github.com/sunilkumar-b"
+            "• LinkedIn: linkedin.com/in/sunilkumar-b-2575a3318\n" +
+            "• GitHub: github.com/sunil-offx"
         };
 
         function getResponse(query) {
@@ -2239,7 +2751,7 @@
           }
 
           // Projects
-          if (cleanQuery.indexOf('project') !== -1 || cleanQuery.indexOf('voter') !== -1 || cleanQuery.indexOf('rag') !== -1 || cleanQuery.indexOf('velan') !== -1 || cleanQuery.indexOf('dairy') !== -1) {
+          if (cleanQuery.indexOf('project') !== -1 || cleanQuery.indexOf('voter') !== -1 || cleanQuery.indexOf('rag') !== -1 || cleanQuery.indexOf('velan') !== -1 || cleanQuery.indexOf('dairy') !== -1 || cleanQuery.indexOf('team') !== -1 || cleanQuery.indexOf('individual') !== -1 || cleanQuery.indexOf('solo') !== -1) {
             return resumeData.projects;
           }
 
@@ -2838,6 +3350,229 @@
       })();
 
 
+
+      // =========================================================
+      // DIRECT CONTACT FORM TRANSMISSION (EMAIL)
+      // =========================================================
+      (function () {
+        var form = document.getElementById('contactForm');
+        var btn = document.getElementById('contactSubmitBtn');
+        var status = document.getElementById('contactStatus');
+        if (!form || !btn || !status) return;
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          var name = document.getElementById('contactName').value.trim();
+          var email = document.getElementById('contactEmail').value.trim();
+          var subject = document.getElementById('contactSubject').value.trim();
+          var message = document.getElementById('contactMsg').value.trim();
+
+          if (!name || !email || !message) return;
+
+          var btnText = btn.querySelector('.btn-text');
+          if (btnText) btnText.textContent = 'Transmitting...';
+          btn.classList.add('launching');
+          btn.disabled = true;
+          status.className = 'contact-status mono';
+          status.textContent = 'Transmitting message to sunilkumarsra2@gmail.com...';
+
+          var payload = {
+            name: name,
+            email: email,
+            _subject: 'Portfolio Inquiry: ' + (subject || 'Direct message from ' + name),
+            message: message,
+            _replyto: email
+          };
+
+          fetch('https://formsubmit.co/ajax/sunilkumarsra2@gmail.com', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          })
+            .then(function (res) {
+              return res.json();
+            })
+            .then(function (data) {
+              btn.disabled = false;
+              btn.classList.remove('launching');
+              if (btnText) btnText.textContent = 'Send Message to Email';
+              status.className = 'contact-status mono success';
+              status.textContent = '✓ Message successfully delivered to Sunilkumar\'s email! Thank you.';
+              form.reset();
+            })
+            .catch(function () {
+              // Fallback: Launch user's default email client with populated fields
+              btn.disabled = false;
+              btn.classList.remove('launching');
+              if (btnText) btnText.textContent = 'Send Message to Email';
+              status.className = 'contact-status mono success';
+              status.textContent = '✓ Launching email client to deliver your message...';
+              var mailtoUrl = 'mailto:sunilkumarsra2@gmail.com?subject=' + encodeURIComponent(subject || 'Portfolio Inquiry from ' + name) +
+                '&body=' + encodeURIComponent('Sender Name: ' + name + '\nSender Email: ' + email + '\n\n' + message);
+              window.location.href = mailtoUrl;
+            });
+        });
+      })();
+
+      // =========================================================
+      // PROJECT DETAILS POPUP MODAL
+      // =========================================================
+      (function () {
+        var modal = document.getElementById('projectModal');
+        var backdrop = document.getElementById('projectModalBackdrop');
+        var closeBtn = document.getElementById('projectModalCloseBtn');
+        var bodyEl = document.getElementById('projectModalBody');
+        var cards = document.querySelectorAll('.project-card');
+
+        if (!modal || !bodyEl) return;
+
+        var projectsData = {
+          'voter-verifier': {
+            id: 'voter-verifier',
+            title: 'Voter Identity Verifier System',
+            type: 'Individual Project',
+            typeClass: 'individual',
+            typeIcon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+            when: 'Dec 2025 — Oct 2026',
+            desc: 'Automated voter biometric verification microservice pairing CNN face matching with ID card OCR.',
+            stats: ['~94% Accuracy', '~70% Faster', 'Dockerized'],
+            points: [
+              { title: 'Face Matching', text: 'ResNet-50 CNN extracts 512-d embeddings for fast biometric comparison.' },
+              { title: 'OCR Extraction', text: 'Preprocesses and parses voter ID credentials with validation.' },
+              { title: 'Cloud & DevOps', text: 'REST microservice with AWS S3 storage and automated CI/CD.' }
+            ],
+            tags: ['Individual Project', 'ResNet-50', 'OCR', 'Docker', 'AWS S3', 'FastAPI']
+          },
+          'rag-system': {
+            id: 'rag-system',
+            title: 'Personalized RAG System',
+            type: 'Individual Project',
+            typeClass: 'individual',
+            typeIcon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
+            when: 'Sept 2025 — Mar 2026',
+            desc: 'Context-aware knowledge retrieval platform indexing custom documents for hallucination-free responses.',
+            stats: ['Sub-sec Search', 'FAISS Index', 'Zero Hallucination'],
+            points: [
+              { title: 'Vector Retrieval', text: 'Dense embeddings indexed in FAISS for instant semantic recall.' },
+              { title: 'Document Pipeline', text: 'Sliding-window token chunking with metadata preservation.' },
+              { title: 'Prompt Tuning', text: 'Grounded citation guardrails ensuring factual generative outputs.' }
+            ],
+            tags: ['Individual Project', 'RAG', 'FAISS', 'Embeddings', 'LLM Prompting', 'Python']
+          },
+          'velan-ecommerce': {
+            id: 'velan-ecommerce',
+            title: 'Velan Pannai E-commerce Site',
+            type: 'Team Project',
+            typeClass: 'team',
+            typeIcon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+            when: 'Jun 2026 — Ongoing',
+            desc: 'Collaborative e-commerce platform for farm-fresh milk, ghee, and dairy ordering.',
+            stats: ['Team Project', 'React.js', 'Real-time Cart'],
+            points: [
+              { title: 'Dairy Marketplace', text: 'Interactive catalog, unit selection, and scheduled delivery slots.' },
+              { title: 'State-Managed Cart', text: 'Persistent shopping cart with live quantity & total calculations.' },
+              { title: 'Team Collaboration', text: 'Engineered responsive React UI components and checkout flow.' }
+            ],
+            tags: ['Team Project', 'React.js', 'E-commerce', 'State Management', 'REST APIs']
+          }
+        };
+
+        function renderProjectModal(data) {
+          var statsHtml = data.stats.map(function (s) {
+            return '<span class="mini-stat-chip">' + s + '</span>';
+          }).join('');
+
+          var pointsHtml = data.points.map(function (p) {
+            return '<li><strong>' + p.title + ':</strong> ' + p.text + '</li>';
+          }).join('');
+
+          var tagsHtml = data.tags.map(function (t) {
+            var isInd = t === 'Individual Project';
+            var isTeam = t === 'Team Project';
+            var extraClass = isInd ? 'tag-individual' : (isTeam ? 'tag-team' : '');
+            return '<span class="tag-chip ' + extraClass + '">' + t + '</span>';
+          }).join('');
+
+          bodyEl.innerHTML =
+            '<div class="mini-modal-header">' +
+              '<span class="mini-modal-when mono">' + data.when + '</span>' +
+              '<span class="project-type-badge ' + data.typeClass + '">' +
+                data.typeIcon +
+                data.type +
+              '</span>' +
+            '</div>' +
+            '<h3 class="mini-modal-title" id="modalProjectTitle">' + data.title + '</h3>' +
+            '<p class="mini-modal-desc">' + data.desc + '</p>' +
+            '<div class="mini-modal-stats">' +
+              statsHtml +
+            '</div>' +
+            '<ul class="mini-modal-points">' +
+              pointsHtml +
+            '</ul>' +
+            '<div class="mini-modal-tags">' +
+              tagsHtml +
+            '</div>' +
+            '<div class="mini-modal-footer">' +
+              '<button type="button" class="mini-btn-dismiss" id="modalBottomCloseBtn">Close</button>' +
+            '</div>';
+
+          var bottomClose = document.getElementById('modalBottomCloseBtn');
+          if (bottomClose) {
+            bottomClose.addEventListener('click', closeModal);
+          }
+        }
+
+        function openModal(projectId) {
+          var data = projectsData[projectId];
+          if (!data) return;
+
+          renderProjectModal(data);
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+
+          var card = document.getElementById('projectModalCard');
+          if (card) card.scrollTop = 0;
+
+          if (closeBtn) closeBtn.focus();
+        }
+
+        function closeModal() {
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        cards.forEach(function (card) {
+          card.addEventListener('click', function (e) {
+            var id = card.getAttribute('data-project-id');
+            if (id) {
+              openModal(id);
+            }
+          });
+
+          card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              var id = card.getAttribute('data-project-id');
+              if (id) openModal(id);
+            }
+          });
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (backdrop) backdrop.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+            closeModal();
+          }
+        });
+      })();
 
     })();
   </script>
