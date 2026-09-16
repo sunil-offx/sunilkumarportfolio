@@ -4,7 +4,7 @@
 
 <br />
 
-<img src="profile.png" width="128" height="128" alt="Sunilkumar B" style="border-radius: 50%; border: 3px solid #5eead4;" />
+<img src="profile.png" width="128" height="128" alt="Sunilkumar B" />
 
 # Sunilkumar B
 ### AI & ML Engineer
@@ -81,13 +81,13 @@ Farm-to-consumer dairy storefront in React — product listings, cart, and check
 
 Dark “build pipeline” UI — sections read like CI stages, and a status rail shifts **amber → teal** as you scroll.
 
-| Token | Hex | Role |
+| Swatch | Hex | Role |
 | :---: | :---: | --- |
-| <img src="https://via.placeholder.com/18/0b0d10/0b0d10.png" alt="" /> | `#0b0d10` | Background |
-| <img src="https://via.placeholder.com/18/171b21/171b21.png" alt="" /> | `#171b21` | Surfaces |
-| <img src="https://via.placeholder.com/18/eae7e0/eae7e0.png" alt="" /> | `#eae7e0` | Text |
-| <img src="https://via.placeholder.com/18/ff9a44/ff9a44.png" alt="" /> | `#ff9a44` | Amber · running |
-| <img src="https://via.placeholder.com/18/5eead4/5eead4.png" alt="" /> | `#5eead4` | Teal · verified |
+| ![#0b0d10](https://img.shields.io/badge/-%230b0d10-0b0d10?style=flat-square) | `#0b0d10` | Background |
+| ![#171b21](https://img.shields.io/badge/-%23171b21-171b21?style=flat-square) | `#171b21` | Surfaces |
+| ![#eae7e0](https://img.shields.io/badge/-%23eae7e0-eae7e0?style=flat-square) | `#eae7e0` | Text |
+| ![#ff9a44](https://img.shields.io/badge/-%23ff9a44-ff9a44?style=flat-square) | `#ff9a44` | Amber · running |
+| ![#5eead4](https://img.shields.io/badge/-%235eead4-5eead4?style=flat-square) | `#5eead4` | Teal · verified |
 
 **Type:** Space Grotesk · Inter · IBM Plex Mono  
 **Motion:** scroll-reveal + pipeline rail, all gated by `prefers-reduced-motion`
@@ -161,7 +161,7 @@ Zero build step. Publish the repo root (`.`):
 
 ### Let's build something
 
-[📧 Email](mailto:sunilkumarsra2@gmail.com) · [💼 LinkedIn](https://www.linkedin.com/in/sunilkumar-b-2575a3318) · [🐙 GitHub](https://github.com/sunil-offx) · [🌐 Live site](https://sunilkumarportfolio.vercel.app)
+[Email](mailto:sunilkumarsra2@gmail.com) · [LinkedIn](https://www.linkedin.com/in/sunilkumar-b-2575a3318) · [GitHub](https://github.com/sunil-offx) · [Live site](https://sunilkumarportfolio.vercel.app)
 
 <br />
 
